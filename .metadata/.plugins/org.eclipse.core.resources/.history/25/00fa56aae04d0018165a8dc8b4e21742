@@ -1,0 +1,29 @@
+import java.sql.*;
+import javax.swing.text.StyledEditorKit.ForegroundAction;
+
+public class DemoDB {
+	
+	public static void main(String args [])
+	{
+		try {
+			Class.forName("org.postgresql.Driver");
+			Connection con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/cachedb","postgres","postgres");
+			PreparedStatement stat1= con.prepareStatement("insert into emp values(3,'sales',456)");
+			ResultSet rs1=stat1.executeQuery();
+			PreparedStatement stat= con.prepareStatement("select * from emp");
+			ResultSet rs=stat.executeQuery();
+			
+			
+			while(rs.next())
+			{
+				System.out.println(rs.getInt(3));
+			}
+		}
+		
+		catch(Exception ex){
+			
+		}
+		
+	}
+
+}

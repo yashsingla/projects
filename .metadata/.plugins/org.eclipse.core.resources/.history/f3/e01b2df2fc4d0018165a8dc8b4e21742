@@ -1,0 +1,45 @@
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+
+import javax.swing.text.StyledEditorKit.ForegroundAction;
+
+public class DemoDB {
+	
+	public static void main(String args [])
+	{
+		try {
+			Class.forName("org.postgresql.Driver");
+			Connection con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/cachedb","postgres","postgres");
+			 
+			try {
+				PreparedStatement stat1;
+				stat1= con.prepareStatement("select CURRENT_TIMESTAMP");
+				ResultSet x=stat1.executeQuery();
+				stat1= con.prepareStatement("insert into recency_list values(?,?,?)");
+				stat1.setInt(1, 11);
+				stat1.setInt(2, 11);
+				stat1.setTimestamp(3, x.getTimestamp(1));
+				int i=stat1.executeUpdate();
+				System.out.println(i);
+				stat1= con.prepareStatement("delete from recency_list");
+                i=stat1.executeUpdate();
+				System.out.println(i);
+				}
+				
+				catch(Exception ex)
+				{
+					
+				}
+		}
+		
+		catch(Exception ex){
+			
+		}
+		
+	}
+
+}

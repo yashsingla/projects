@@ -1,0 +1,85 @@
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+
+public class DatabaseFunctions {
+
+	Connection con;
+	
+	public DatabaseFunctions(Connection con) {
+		this.con=con;
+	}
+	
+	private void deletePageFromTableOnBasisOfKey(String tableName, int key) {
+		
+		try {
+			PreparedStatement stat1;
+			stat1= con.prepareStatement("delete from "+tableName+" where key_in_kv_pair="+key);
+		    stat1.executeUpdate();
+			}
+			
+			catch(Exception ex)
+			{
+				System.out.println("message: "+ex.getMessage());
+			}
+	}
+
+	public void deletePageFromTable(String tableName)
+	{
+		try {
+			PreparedStatement stat1;
+			stat1= con.prepareStatement("delete from "+tableName+" where date_added in( select date_added from "+tableName+" order by date_added limit 1)");
+		    stat1.executeUpdate();
+			}
+			
+			catch(Exception ex)
+			{
+				System.out.println("message: "+ex.getMessage());
+			}
+	   	
+	}
+	
+	public void addPageInTable(String tableName,int key,int value)
+	{
+		try {
+			PreparedStatement stat1;
+			long millis=System.currentTimeMillis();
+			stat1= con.prepareStatement("insert into "+tableName+" values(?,?,?)");
+			stat1.setInt(1, key);
+			stat1.setInt(2, value);
+			stat1.setLong(3, millis);
+		    stat1.executeUpdate();
+			}
+			
+			catch(Exception ex)
+			{
+				System.out.println("message: "+ex.getMessage());
+			}
+	   	
+	}
+
+
+	public void deleteDataFromCacheTables() {
+		
+		try {
+		PreparedStatement stat1;
+		stat1= con.prepareStatement("delete from recency_list");
+	    stat1.executeUpdate();
+	    
+	    stat1= con.prepareStatement("delete from recency_ghost_list");
+	    stat1.executeUpdate();
+	    
+	    stat1= con.prepareStatement("delete from frequency_list");
+	    stat1.executeUpdate();
+	    
+	    stat1= con.prepareStatement("delete from frequency_ghost_list");
+	    stat1.executeUpdate();
+		
+		}
+		
+		catch(Exception ex)
+		{
+			System.out.println("message: "+ex.getMessage());
+		}
+	}
+
+}

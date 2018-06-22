@@ -1,0 +1,24 @@
+
+import java.util.*;
+
+public class algoClass_1 {
+	
+		
+	public static void main(String args [])
+	{
+		//List<Integer>values=new ArrayList<Integer>(Arrays.asList(1,2,3,4,5,4,5,1,2,6,7,8,7,6,3,1));
+	//	List<Integer>values=new ArrayList<Integer>(Arrays.asList(1,2,3,4,5,4,5)); fails for mru
+		List<Integer>values=new ArrayList<Integer>(Arrays.asList(1,2,3,4,5,6,1,2,3,4,5,6)); //fails for mru
+
+		cache obj= new cache();	
+				
+		for(Integer x:values)
+		{
+			//System.out.println(itr.next());
+		obj.insert_cache(x,x);	
+		}
+		System.out.println(obj.getCacheMiss());
+	
+	}
+
+}
